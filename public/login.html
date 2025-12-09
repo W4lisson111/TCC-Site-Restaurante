@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+</head>
+<body>
+  <div class="login-box">
+    <h1>Login</h1>
+    <form id="loginForm">
+  <input type="email" id="email" required>
+  <input type="password" id="senha" required>
+  <button type="submit">Entrar</button>
+</form>
+
+ <p>Ainda não tem conta? <a href="/public/cadastro.html">Cadastre-se aqui</a></p>
+
+<div id="message"></div>
+
+<script>
+const form = document.getElementById("loginForm");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    email: document.getElementById("email").value,
+    senha: document.getElementById("senha").value
+  };
+
+  try {
+    const res = await fetch("http://localhost:5500/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      // ✅ Login OK → redireciona para home.html
+      window.location.href = "/public/home.html";
+    } else {
+      document.getElementById("message").innerText = result.error;
+    }
+  } catch (err) {
+    document.getElementById("message").innerText = "Erro ao conectar ao servidor.";
+    console.error(err);
+  }
+});
+</script>
+
+</body>
+</html>

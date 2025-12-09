@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Carrinho</title>
+  <link rel="stylesheet" href="carrinho.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 Meu Carrinho</h1>
+    <a href="/public/home.html" class="btn-voltar">⬅ Voltar para a Loja</a>
+  </header>
+
+  <main>
+    <section class="carrinho-container">
+      <table id="tabela-carrinho">
+        <thead>
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Total</th>
+            <th scope="col">Ação</th>
+          </tr>
+        </thead>
+        <tbody id="carrinho-itens">
+          <tr><td colspan="5" class="vazio">Carregando...</td></tr>
+        </tbody>
+      </table>
+
+      <div class="resumo">
+        <h2>Total do Carrinho: <span id="total-geral">R$ 0,00</span></h2>
+        <button class="finalizar">Finalizar Compra</button>
+        <input type="Digite o valor">
+        <button class="doe">Doe um valor</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tbody = document.getElementById("carrinho-itens");
+    const totalGeralEl = document.getElementById("total-geral");
+
+    async function carregarCarrinho() {
+      tbody.innerHTML = `<tr><td colspan="5" class="vazio">Carregando...</td></tr>`;
+      try {
+        const res = await fetch("/api/carrinho");
+        const itens = await res.json();
+        tbody.innerHTML = "";
+
+        if (itens.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="vazio">Seu carrinho está vazio 🛍️</td></tr>`;
+          totalGeralEl.textContent = "R$ 0,00";
+          return;
+        }
+
+        let totalGeral = 0;
+        itens.forEach(item => {
+          const total = item.preco * item.quantidade;
+          totalGeral += total;
+
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+            <td>${item.produto}</td>
+            <td>R$ ${item.preco.toFixed(2)}</td>
+            <td>
+              <button aria-label="Diminuir quantidade">➖</button>
+              <span>${item.quantidade}</span>
+              <button aria-label="Aumentar quantidade">➕</button>
+            </td>
+            <td>R$ ${total.toFixed(2)}</td>
+            <td><button aria-label="Remover item">❌</button></td>
+          `;
+
+          // Botões com addEventListener
+          const [btnMenos, , btnMais] = tr.querySelectorAll("button");
+          const btnRemover = tr.querySelector("td:last-child button");
+
+          btnMenos.addEventListener("click", () => alterarQuantidade(item.produto, -1));
+          btnMais.addEventListener("click", () => alterarQuantidade(item.produto, 1));
+          btnRemover.addEventListener("click", () => removerItem(item.produto));
+
+          tbody.appendChild(tr);
+        });
+
+        totalGeralEl.textContent = "R$ " + totalGeral.toFixed(2);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="erro">Erro ao carregar carrinho ❌</td></tr>`;
+        console.error(err);
+      }
+    }
+
+    async function alterarQuantidade(produto, delta) {
+      await fetch("/api/carrinho/alterar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ produto, delta })
+      });
+      carregarCarrinho();
+    }
+
+    async function removerItem(produto) {
+      await fetch("/api/carrinho/remover", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ produto })
+      });
+      carregarCarrinho();
+    }
+
+    carregarCarrinho();
+  </script>
+</body>
+</html>

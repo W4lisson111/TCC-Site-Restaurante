@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("/img/crie\ um\ imagem\ de\ um\ prato\ arroz\ e\ carne\ na\ horizontal\ \ parcialmente\ desfocado\ uma\ quantidade\ de\ comida\ \ bem\ decorado.jpg ") no-repeat center center fixed;
+     
+  }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.3); /* branco com 30% de opacidade */
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
+    }
+
+  .login-box h2 {
+    margin-bottom: 20px;
+  }
+
+  .login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .login-box button {
+    width: 100%;
+    padding: 12px;
+    background: #ae6f2b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .login-box button:hover {
+    background: #dc903e;
+  }

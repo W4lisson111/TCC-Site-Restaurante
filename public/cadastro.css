@@ -1,0 +1,51 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("/img/crie\ um\ imagem\ de\ um\ prato\ arroz\ e\ carne\ na\ horizontal\ \ parcialmente\ desfocado\ uma\ quantidade\ de\ comida\ \ bem\ decorado.jpg ") no-repeat center center fixed;
+}
+
+
+.cadastro-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+}
+
+.cadastro-box h2 {
+  margin-bottom: 20px;
+}
+
+.cadastro-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.cadastro-box button {
+  width: 100%;
+  padding: 10px;
+  background: #ae6f2b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  box-align: center;
+}
+
+.cadastro-box button:hover {
+  background: #ae6f2b;
+}
